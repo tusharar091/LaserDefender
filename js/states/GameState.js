@@ -3,8 +3,13 @@ var GameState={
     init : function()
     {
         this.scale.scaleMode=Phaser.ScaleManager.SHOW_ALL;
+        this.scale.pageAlignHorizontally=true;
+        this.scale.pageAlignVertically=true;
+        
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         
+        this.cursors=this.game.input.keyboard.createCursorKeys();
+
         this.PLAYER_SPEED=200;
         this.BULLET_SPEED=-1000;
     },
@@ -26,10 +31,41 @@ var GameState={
     {
         this.background=this.game.add.tileSprite(0,0,this.game.world.width, this.game.world.height,'space');
         this.background.autoScroll(0,30);
+        
+        this.player=this.game.add.sprite(this.game.world.centerX,this.game.world.height-50,'player');
+        this.player.anchor.setTo(0.5);
+        
+        this.game.physics.arcade.enable(this.player);
+        this.player.body.collideWorldBounds=true;
+        
+        
     },
     
     update : function()
     {
+        this.player.body.velocity.x=0;
         
+        if(this.game.input.activePointer.isDown)
+            {
+                this.targetX=this.game.input.activePointer.x;
+                
+                if(this.targetX<=this.game.world.centerX)
+                    {
+                        this.direction=-1;
+                    }
+                else{
+                    this.direction=1;
+                }
+                
+                this.player.body.velocity.x=this.direction*this.PLAYER_SPEED;
+            }
+        else if(this.cursors.left.isDown)
+            {
+                this.player.body.velocity.x=-1*this.PLAYER_SPEED;
+            }
+        else if(this.cursors.right.isDown)
+            {
+                this.player.body.velocity.x=this.PLAYER_SPEED;
+            }
     }
 };
