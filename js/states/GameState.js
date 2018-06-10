@@ -11,7 +11,7 @@ var GameState={
         this.cursors=this.game.input.keyboard.createCursorKeys();
 
         this.PLAYER_SPEED=200;
-        this.BULLET_SPEED=-1000;
+        this.BULLET_SPEED=-500;
     },
     
     preload : function()
@@ -38,7 +38,8 @@ var GameState={
         this.game.physics.arcade.enable(this.player);
         this.player.body.collideWorldBounds=true;
         
-        
+        this.initBullets();
+        this.shootingTime=this.game.time.events.loop(Phaser.Timer.SECOND/5,this.createPlayerBullets,this);
     },
     
     update : function()
@@ -67,5 +68,27 @@ var GameState={
             {
                 this.player.body.velocity.x=this.PLAYER_SPEED;
             }
+    },
+    
+    initBullets : function()
+    {
+        this.playerBullets=this.game.add.group();
+        this.playerBullets.enableBody=true;
+    },
+    
+    createPlayerBullets :  function()
+    {
+        var bullet=this.playerBullets.getFirstExists(false);
+        
+        if(!bullet)
+            {
+                bullet=new PlayerBullet(this.game,this.player.x,this.player.top);
+                this.playerBullets.add(bullet);
+            }
+        bullet.reset(this.player.x,this.player.top);
+        
+        bullet.body.velocity.y=this.BULLET_SPEED;
+        
+        
     }
 };
