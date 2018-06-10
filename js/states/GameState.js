@@ -40,6 +40,13 @@ var GameState={
         
         this.initBullets();
         this.shootingTime=this.game.time.events.loop(Phaser.Timer.SECOND/5,this.createPlayerBullets,this);
+        
+        var enemy=new Enemy(this.game,100,100,'greenEnemy',10,[]);
+        
+        this.game.add.existing(enemy);
+        enemy.body.velocity.x=100;
+        enemy.body.velocity.y=20;
+        
     },
     
     update : function()
