@@ -1,7 +1,6 @@
 this.Enemy= function(game,x,y,key,health,enemyBullets)
 {
     Phaser.Sprite.call(this,game,x,y,key);
-    game.physics.arcade.enable(this);
     
     this.animations.add('hit',[0,1,2,1,0],25,false);
     this.anchor.setTo(0.5);
@@ -30,4 +29,10 @@ this.Enemy.prototype.update=function()
         {
             this.kill();
         }
+};
+
+this.Enemy.prototype.damage=function(amount)
+{
+    Phaser.Sprite.prototype.damage.call(this,amount);
+    this.play('hit');
 }
