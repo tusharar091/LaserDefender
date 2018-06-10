@@ -49,6 +49,8 @@ var GameState={
     update : function()
     {
         this.game.physics.arcade.overlap(this.playerBullets,this.enemies,this.damageEnemy,null,this);
+        
+        this.game.physics.arcade.overlap(this.enemyBullets,this.player,this.killPlayer,null,this);
         this.player.body.velocity.x=0;
         
         if(this.game.input.activePointer.isDown)
@@ -102,16 +104,25 @@ var GameState={
         this.enemies=this.game.add.group();
         this.enemies.enableBody=true;
         
-        var enemy=new Enemy(this.game,100,100,'greenEnemy',10,[]);
+        this.enemyBullets=this.game.add.group();
+        this.enemyBullets.enableBody=true;
         
-        this.enemies.add(enemy);
-        enemy.body.velocity.x=100;
-        enemy.body.velocity.y=20;
+        
+        this.enemy=new Enemy(this.game,100,100,'greenEnemy',10,this.enemyBullets);
+        
+        this.enemies.add(this.enemy);
+        this.enemy.body.velocity.x=0;
+        this.enemy.body.velocity.y=0;
     },
     
     damageEnemy : function(bullet,enemy)
     {
-        enemy.damage(1);
+        this.enemy.damage(1);
         bullet.kill();
+    },
+    killPlayer : function(enemyBullet,player)
+    {
+        player.kill();
+        this.game.state.restart('GameState');
     }
 };
