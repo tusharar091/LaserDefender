@@ -1,5 +1,5 @@
-# [Laser Defender](https://tusharar091.github.io/Toddler-Farm-Animals/)
-## [Play the Game](https://tusharar091.github.io/Toddler-Farm-Animals/)
+# [Laser Defender](https://tusharar091.github.io/LaserDefender/)
+## [Play the Game](https://tusharar091.github.io/LaserDefender/)
 <hr>
 
 ## Description
